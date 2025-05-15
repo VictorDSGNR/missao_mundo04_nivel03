@@ -1,0 +1,13 @@
+<resources>
+    <!-- Tema principal do aplicativo -->
+    <style name="Theme.DomaAudio" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Cor de fundo do aplicativo -->
+        <item name="android:windowBackground">@android:color/black</item>
+        <!-- Cor do texto padrão -->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <!-- Cor dos botões -->
+        <item name="colorPrimary">@android:color/holo_green_light</item>
+        <item name="colorPrimaryVariant">@android:color/holo_green_dark</item>
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+    </style>
+</resources>

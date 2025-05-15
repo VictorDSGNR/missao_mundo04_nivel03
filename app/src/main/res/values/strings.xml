@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DOMA ÁUDIO</string>
+        <string name="company_name">DOMA</string>
+        <string name="device_status_default">Nenhum dispositivo conectado</string>
+        <string name="check_devices_button">Verificar Dispositivos</string>
+        <string name="bluetooth_settings_button">Configurações de Bluetooth</string>
+    <string name="speak_button">Falar</string>
+</resources>

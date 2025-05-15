@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@android:color/black">
+
+    <TextView
+        android:id="@+id/companyNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/company_name"
+        android:textSize="24sp"
+        android:textColor="@android:color/holo_green_light"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:id="@+id/deviceStatusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/device_status_default"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:id="@+id/checkDevicesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/check_devices_button"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/bluetoothSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/bluetooth_settings_button"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@android:color/holo_green_light"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/speakButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speak_button"
+        android:backgroundTint="@android:color/holo_orange_light"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/speakButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Falar"
+        android:layout_marginTop="20dp" />
+
+
+
+</LinearLayout>
