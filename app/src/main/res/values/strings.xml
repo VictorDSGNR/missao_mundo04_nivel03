@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">DOMA ÁUDIO</string>
-        <string name="company_name">DOMA</string>
-        <string name="device_status_default">Nenhum dispositivo conectado</string>
-        <string name="check_devices_button">Verificar Dispositivos</string>
-        <string name="bluetooth_settings_button">Configurações de Bluetooth</string>
-    <string name="speak_button">Falar</string>
+    <string name="app_name">D O M A Aúdio</string>
+    <string name="app_description">Sua Nova Experiência Sonora</string>
+    <string name="button_speak">Falar</string>
+    <string name="no_device">Nenhum dispositivo de áudio conectado</string>
+    <string name="tts_initializing">Inicializando voz...</string>
+    <string name="welcome_message">Seja bem-vindo ao D O M A Aúdio!</string>
 </resources>

@@ -1,34 +1,42 @@
 package com.example.domaaudio;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private AudioHelper audioHelper;
-    private Button speakButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicializa o AudioHelper
+
         audioHelper = new AudioHelper(this);
 
-        // Referência ao botão
-        speakButton = findViewById(R.id.speakButton);
 
-        // Configura o clique do botão
-        speakButton.setOnClickListener(v -> audioHelper.speak("Seja bem-vindo ao DomaAudio!"));
+        Button speakButton = findViewById(R.id.speakButton);
+
+        speakButton.setOnClickListener(v -> {
+            if (!audioHelper.isAudioDeviceConnected()) {
+                Toast.makeText(this, "Nenhum dispositivo de áudio conectado. Conecte um fone ou caixa de som.", Toast.LENGTH_SHORT).show();
+            } else if (!audioHelper.isReady()) {
+                Toast.makeText(this, "Inicializando o sistema de voz. Por favor, aguarde...", Toast.LENGTH_SHORT).show();
+            } else {
+                audioHelper.speak("Seja bem-vindo ao DomaAudio!");
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // Liberar os recursos do TextToSpeech
-        audioHelper.shutdown();
+        if (audioHelper != null) {
+            audioHelper.shutdown();
+        }
     }
 }

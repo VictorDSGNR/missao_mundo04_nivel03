@@ -5,60 +5,80 @@ import android.content.pm.PackageManager;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
+import android.util.Log;
+
 import java.util.Locale;
 
 public class AudioHelper {
 
-    private AudioManager audioManager;
+    public boolean isReady() {
+        return isReady;
+    }
+
+    private static final String TAG = "AudioHelper";
+
+    private final AudioManager audioManager;
+    private final Context context;
     private TextToSpeech textToSpeech;
-    private Context context;
+    private boolean isReady = false;
 
     public AudioHelper(Context context) {
         this.context = context;
-        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
-        // Inicializando o TextToSpeech
-        textToSpeech = new TextToSpeech(context, new OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    // Definindo o idioma
-                    textToSpeech.setLanguage(Locale.US);
+        this.textToSpeech = new TextToSpeech(context, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                Locale language = Locale.US;
+                int result = textToSpeech.setLanguage(language);
+
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e(TAG, "Idioma não suportado: " + language);
+                } else {
+                    isReady = true;
+                    Log.i(TAG, "TextToSpeech inicializado com sucesso");
                 }
+            } else {
+                Log.e(TAG, "Falha ao inicializar o TextToSpeech");
             }
         });
     }
 
-    // Método para verificar a disponibilidade de uma saída de áudio
-    public boolean audioOutputAvailable(int type) {
+
+    public boolean isAudioDeviceConnected() {
         if (!context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUDIO_OUTPUT)) {
             return false;
         }
 
-        for (AudioDeviceInfo device : audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)) {
-            if (device.getType() == type) {
+        AudioDeviceInfo[] devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS);
+        for (AudioDeviceInfo device : devices) {
+            int type = device.getType();
+            if (type == AudioDeviceInfo.TYPE_BLUETOOTH_A2DP ||
+                    type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
+                    type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
+                    type == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
+                    type == AudioDeviceInfo.TYPE_USB_HEADSET ||
+                    type == AudioDeviceInfo.TYPE_USB_DEVICE ||
+                    type == AudioDeviceInfo.TYPE_LINE_ANALOG ||
+                    type == AudioDeviceInfo.TYPE_LINE_DIGITAL ||
+                    type == AudioDeviceInfo.TYPE_HDMI) {
+                Log.i(TAG, "Dispositivo de áudio conectado: " + device.getProductName());
                 return true;
             }
         }
+        Log.i(TAG, "Nenhum dispositivo de áudio conectado");
         return false;
     }
 
-    // Método para falar um texto
+
     public void speak(String text) {
-        if (textToSpeech != null) {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        if (isReady) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "UTTERANCE_ID");
+        } else {
+            Log.w(TAG, "TextToSpeech não está pronto ainda");
         }
     }
 
-    // Método para abrir configurações de Bluetooth
-    public void openBluetoothSettings(Context context) {
-        Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intent);
-    }
 
-    // Método para liberar recursos do TextToSpeech quando não for mais necessário
     public void shutdown() {
         if (textToSpeech != null) {
             textToSpeech.stop();

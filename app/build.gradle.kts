@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.domaaudio"
+    namespace = "com.example.domaaudio" // Usar "=" no Kotlin DSL (build.gradle.kts)
     compileSdk = 33
 
     defaultConfig {
         applicationId = "com.example.domaaudio"
         minSdk = 30
-        targetSdk = 35
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
     }
